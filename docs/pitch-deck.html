@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlopAuditor - Pitch Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #111111;
+      --border: #222222;
+      --text: #ffffff;
+      --text-secondary: #888888;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --critical: #ef4444;
+      --warning: #f59e0b;
+      --success: #22c55e;
+    }
+
+    @media print {
+      .slide {
+        page-break-after: always;
+        page-break-inside: avoid;
+      }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .slide {
+      min-height: 100vh;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 30% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .slide-number {
+      position: absolute;
+      bottom: 30px;
+      right: 40px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    h1 {
+      font-size: 72px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: var(--text);
+    }
+
+    h3 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 28px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 60px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .logo-text {
+      font-size: 48px;
+      font-weight: 700;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .stat-value.critical { color: var(--critical); }
+    .stat-value.warning { color: var(--warning); }
+    .stat-value.success { color: var(--success); }
+
+    .stat-label {
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 40px 0;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comparison-table th {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .comparison-table td {
+      font-size: 20px;
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .check { color: var(--success); }
+    .cross { color: var(--critical); }
+
+    .timeline {
+      position: relative;
+      margin: 40px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 60px;
+      margin-bottom: 40px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 4px solid var(--bg);
+    }
+
+    .timeline-dot.done {
+      background: var(--success);
+    }
+
+    .timeline-date {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .timeline-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    .pricing-tier {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .pricing-price {
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .pricing-period {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .pricing-features {
+      text-align: left;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .pricing-features li {
+      margin-bottom: 8px;
+      list-style: none;
+    }
+
+    .pricing-features li::before {
+      content: '✓ ';
+      color: var(--success);
+    }
+
+    .market-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .market-label {
+      width: 100px;
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    .market-fill {
+      flex: 1;
+      height: 40px;
+      background: var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .market-fill-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 16px;
+      font-weight: 600;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid var(--accent);
+      border-radius: 24px;
+      padding: 50px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .cta-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-subtitle {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+    }
+
+    .cta-links {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 18px;
+    }
+
+    .cta-links a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .problem-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .problem-text h4 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .problem-text p {
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .use-of-funds {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .fund-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .fund-percent {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--accent);
+      width: 120px;
+    }
+
+    .fund-label {
+      font-size: 20px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .highlight-box h3 {
+      color: white;
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .highlight-box p {
+      color: rgba(255,255,255,0.9);
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Title -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="logo">
+        <div class="logo-icon">S</div>
+        <div class="logo-text">SlopAuditor</div>
+      </div>
+      <h1>Security Scanning<br>That Doesn't Suck</h1>
+      <p class="tagline">Find secrets, vulnerabilities & misconfigs in any codebase.<br>In 30 seconds. With a 3D visualization. Open source.</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">30s</div>
+          <div class="stat-label">Average Scan Time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5+</div>
+          <div class="stat-label">Security Tools Integrated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value success">Free</div>
+          <div class="stat-label">Open Source Core</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">01</div>
+  </div>
+
+  <!-- Slide 2: The Problem -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>The Problem</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value critical">60%</div>
+          <div class="stat-label">of breaches from leaked secrets in code</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value warning">$4.5M</div>
+          <div class="stat-label">average cost of a data breach</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1000s</div>
+          <div class="stat-label">of commits pushed daily without checks</div>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">💸</div>
+        <div class="problem-text">
+          <h4>Enterprise tools are expensive</h4>
+          <p>Snyk, Checkmarx, Veracode charge $10K-100K/year. Out of reach for startups & indie devs.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">😴</div>
+        <div class="problem-text">
+          <h4>Existing tools have terrible UX</h4>
+          <p>Walls of text, confusing dashboards, 500-page PDF reports nobody reads.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">🐌</div>
+        <div class="problem-text">
+          <h4>Manual audits don't scale</h4>
+          <p>Security consultants charge $200/hr. Can't afford to audit every commit.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">02</div>
+  </div>
+
+  <!-- Slide 3: The Solution -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>The Solution</h2>
+      <p class="tagline">SlopAuditor: Security scanning that developers actually want to use.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Scan Any Repo in 30 Seconds</div>
+          <div class="feature-desc">Paste a GitHub URL, click scan, get results. No setup, no config files, no BS.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Real Security Tools</div>
+          <div class="feature-desc">Powered by Gitleaks, Trivy, Grype, Semgrep - the same tools enterprises use.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎮</div>
+          <div class="feature-title">3D Visualization</div>
+          <div class="feature-desc">Interactive drill-down from repo → severity → individual findings. Not boring spreadsheets.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-title">Multi-Language Support</div>
+          <div class="feature-desc">JavaScript, Python, Go, Rust, Ruby, PHP, Java - we scan them all.</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <h3>Try It Right Now</h3>
+        <p>http://54.90.137.98/app</p>
+      </div>
+    </div>
+    <div class="slide-number">03</div>
+  </div>
+
+  <!-- Slide 4: How It Works -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>How It Works</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">1️⃣</div>
+          <div class="feature-title">Paste & Scan</div>
+          <div class="feature-desc">Enter any GitHub URL or local path. Click "Start Scan". That's it.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">2️⃣</div>
+          <div class="feature-title">See Results in 3D</div>
+          <div class="feature-desc">Each repo appears as a node. Green = safe, Yellow = warnings, Red = critical issues.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">3️⃣</div>
+          <div class="feature-title">Drill Down</div>
+          <div class="feature-desc">Click repo → See severity breakdown (Critical/High/Medium/Low)</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">4️⃣</div>
+          <div class="feature-title">Explore Findings</div>
+          <div class="feature-desc">Click severity → See each individual vulnerability with file & line number.</div>
+        </div>
+      </div>
+      <h3 style="margin-top: 40px;">What We Detect</h3>
+      <table class="comparison-table">
+        <tr>
+          <td>🔑 Secrets</td>
+          <td>API keys, passwords, tokens, private keys leaked in code</td>
+        </tr>
+        <tr>
+          <td>📦 Vulnerabilities</td>
+          <td>Known CVEs in npm, pip, go, cargo dependencies</td>
+        </tr>
+        <tr>
+          <td>🐛 Code Issues</td>
+          <td>SQL injection, XSS, insecure patterns (SAST)</td>
+        </tr>
+        <tr>
+          <td>☁️ IaC Misconfig</td>
+          <td>Terraform, Kubernetes, CloudFormation issues</td>
+        </tr>
+        <tr>
+          <td>🐳 Docker Issues</td>
+          <td>Dockerfile security best practices violations</td>
+        </tr>
+      </table>
+    </div>
+    <div class="slide-number">04</div>
+  </div>
+
+  <!-- Slide 5: Competitive Advantage -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>Why We Win</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>SlopAuditor</th>
+            <th>Snyk</th>
+            <th>GitHub Security</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td><span class="check">Free / $29/mo</span></td>
+            <td><span class="cross">$52/dev/mo</span></td>
+            <td><span class="check">Free (basic)</span></td>
+          </tr>
+          <tr>
+            <td>Setup Time</td>
+            <td><span class="check">0 minutes</span></td>
+            <td><span class="cross">30+ minutes</span></td>
+            <td><span class="warning">10 minutes</span></td>
+          </tr>
+          <tr>
+            <td>Visualization</td>
+            <td><span class="check">3D Interactive</span></td>
+            <td><span class="cross">Tables only</span></td>
+            <td><span class="cross">Basic list</span></td>
+          </tr>
+          <tr>
+            <td>Open Source</td>
+            <td><span class="check">Yes</span></td>
+            <td><span class="cross">No</span></td>
+            <td><span class="cross">No</span></td>
+          </tr>
+          <tr>
+            <td>Multi-tool</td>
+            <td><span class="check">5+ scanners</span></td>
+            <td><span class="warning">Proprietary</span></td>
+            <td><span class="cross">Limited</span></td>
+          </tr>
+          <tr>
+            <td>Self-hostable</td>
+            <td><span class="check">Yes</span></td>
+            <td><span class="cross">Enterprise only</span></td>
+            <td><span class="cross">No</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="highlight-box">
+        <h3>10x Cheaper. 10x Faster. 10x Better UX.</h3>
+        <p>We're not competing on features. We're competing on experience.</p>
+      </div>
+    </div>
+    <div class="slide-number">05</div>
+  </div>
+
+  <!-- Slide 6: Market Opportunity -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>Market Opportunity</h2>
+      <h3>Application Security Market</h3>
+      <div class="market-bar">
+        <div class="market-label">2024</div>
+        <div class="market-fill">
+          <div class="market-fill-inner" style="width: 34%;">$8.5B</div>
+        </div>
+      </div>
+      <div class="market-bar">
+        <div class="market-label">2026</div>
+        <div class="market-fill">
+          <div class="market-fill-inner" style="width: 56%;">$14B</div>
+        </div>
+      </div>
+      <div class="market-bar">
+        <div class="market-label">2028</div>
+        <div class="market-fill">
+          <div class="market-fill-inner" style="width: 100%;">$25B</div>
+        </div>
+      </div>
+      <div class="stats-grid" style="margin-top: 50px;">
+        <div class="stat-card">
+          <div class="stat-value">30%</div>
+          <div class="stat-label">YoY Growth</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">28M</div>
+          <div class="stat-label">Developers Worldwide</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">200M+</div>
+          <div class="stat-label">GitHub Repositories</div>
+        </div>
+      </div>
+      <h3 style="margin-top: 40px;">Our Target</h3>
+      <p style="font-size: 20px; color: var(--text-secondary);">
+        Startups, indie developers, and teams who can't afford enterprise tools but need real security.
+        That's millions of developers currently using nothing or basic free tools.
+      </p>
+    </div>
+    <div class="slide-number">06</div>
+  </div>
+
+  <!-- Slide 7: Business Model -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>Business Model</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tier">Community</div>
+          <div class="pricing-price">Free</div>
+          <div class="pricing-period">forever</div>
+          <ul class="pricing-features">
+            <li>Public repo scanning</li>
+            <li>3D dashboard</li>
+            <li>Basic reports</li>
+            <li>Community support</li>
+          </ul>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-tier">Pro</div>
+          <div class="pricing-price">$29</div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li>Private repos</li>
+            <li>CI/CD integration</li>
+            <li>Slack/Discord alerts</li>
+            <li>30-day history</li>
+            <li>Email support</li>
+          </ul>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-tier">Team</div>
+          <div class="pricing-price">$99</div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li>Unlimited repos</li>
+            <li>Team dashboard</li>
+            <li>Custom policies</li>
+            <li>Priority support</li>
+            <li>API access</li>
+          </ul>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-tier">Enterprise</div>
+          <div class="pricing-price">Custom</div>
+          <div class="pricing-period">contact us</div>
+          <ul class="pricing-features">
+            <li>On-prem / VPC</li>
+            <li>SSO / SAML</li>
+            <li>Compliance reports</li>
+            <li>SLA guarantee</li>
+            <li>Dedicated support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">07</div>
+  </div>
+
+  <!-- Slide 8: Roadmap -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>Roadmap</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-date">NOW - COMPLETE</div>
+          <div class="timeline-title">Core Platform</div>
+          <div class="timeline-desc">Open source scanner, 3D dashboard, multi-language support, AWS deployment</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Q2 2026</div>
+          <div class="timeline-title">CI/CD & Integrations</div>
+          <div class="timeline-desc">GitHub Actions, GitLab CI, Slack/Discord alerts, team dashboards</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Q3 2026</div>
+          <div class="timeline-title">SlopAuditor Cloud</div>
+          <div class="timeline-desc">Hosted SaaS, private repo scanning, compliance reports, AI fix suggestions</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">Q4 2026</div>
+          <div class="timeline-title">Enterprise Launch</div>
+          <div class="timeline-desc">On-prem deployment, SSO/SAML, audit logs, dedicated support</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-number">08</div>
+  </div>
+
+  <!-- Slide 9: The Ask -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2>The Ask</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">$500K</div>
+          <div class="stat-label">to</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$1M</div>
+          <div class="stat-label">Seed Round</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">18mo</div>
+          <div class="stat-label">Runway</div>
+        </div>
+      </div>
+      <h3>Use of Funds</h3>
+      <div class="use-of-funds">
+        <div class="fund-item">
+          <div class="fund-percent">40%</div>
+          <div class="fund-label">Engineering<br><span style="color: var(--text-secondary); font-size: 14px;">2-3 full-time developers</span></div>
+        </div>
+        <div class="fund-item">
+          <div class="fund-percent">30%</div>
+          <div class="fund-label">Infrastructure<br><span style="color: var(--text-secondary); font-size: 14px;">Cloud, security tools, scaling</span></div>
+        </div>
+        <div class="fund-item">
+          <div class="fund-percent">20%</div>
+          <div class="fund-label">Marketing<br><span style="color: var(--text-secondary); font-size: 14px;">Community, content, events</span></div>
+        </div>
+        <div class="fund-item">
+          <div class="fund-percent">10%</div>
+          <div class="fund-label">Operations<br><span style="color: var(--text-secondary); font-size: 14px;">Legal, admin, misc</span></div>
+        </div>
+      </div>
+      <h3>Milestones</h3>
+      <table class="comparison-table">
+        <tr>
+          <td>6 months</td>
+          <td>1,000 active users</td>
+        </tr>
+        <tr>
+          <td>12 months</td>
+          <td>$10K MRR</td>
+        </tr>
+        <tr>
+          <td>18 months</td>
+          <td>Series A ready</td>
+        </tr>
+      </table>
+    </div>
+    <div class="slide-number">09</div>
+  </div>
+
+  <!-- Slide 10: Call to Action -->
+  <div class="slide">
+    <div class="slide-content" style="text-align: center;">
+      <div class="logo" style="justify-content: center;">
+        <div class="logo-icon">S</div>
+        <div class="logo-text">SlopAuditor</div>
+      </div>
+      <h1>Let's Secure<br>The World's Code</h1>
+      <p class="tagline">Security should be accessible to everyone, not just enterprises.</p>
+      <div class="cta-box">
+        <div class="cta-title">Ready to Talk?</div>
+        <div class="cta-subtitle">Try the product. See the vision. Join the mission.</div>
+        <div class="cta-links">
+          <a href="http://54.90.137.98/app">🚀 Live Demo</a>
+          <a href="https://github.com/slopsecurityadmin/slop-security-auditor">📦 GitHub</a>
+          <a href="https://npmjs.com/package/slop-auditor">📥 npm</a>
+        </div>
+      </div>
+      <p style="margin-top: 60px; font-size: 24px; color: var(--text-secondary);">
+        Questions? Let's chat.
+      </p>
+    </div>
+    <div class="slide-number">10</div>
+  </div>
+
+</body>
+</html>
